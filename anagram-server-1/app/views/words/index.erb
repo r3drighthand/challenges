@@ -1,0 +1,19 @@
+<div class="container head-contain">
+  <main class="container word-contain left">
+    <h2>
+      <%= @word.phrase.capitalize %>
+    </h2>
+    <h4>The anagrams of "<%= @word.phrase %>" are ...</h4>
+
+    <% @anagrams.each do |anagram| %>
+      <p><%= anagram.phrase %></p>
+    <% end %>
+
+
+  </main>
+
+  <div class="form-contain right">
+    <%= erb :"words/_word_search_form", layout: false %>
+  </div>
+
+</div>
