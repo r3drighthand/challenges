@@ -1,7 +1,6 @@
 $(document).ready(function () {
   $("form").on("submit", function(e){
     e.preventDefault();
-    //console.log($(this));
 
     var $form = $(this);
     var method = $form.attr("method");
@@ -14,7 +13,6 @@ $(document).ready(function () {
       data: data
     })
     .done(function(response){
-      // console.log(response);
       $("#die-container").html(response);
     })
 
