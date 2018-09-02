@@ -12,12 +12,9 @@
 
   <div id="die-container">
     <% if @die %>
-      <div class="die">
-        <span class="roll">
-          <%= @die.roll %>
-        </span>
-      </div>
+      <%= erb :"_die" %>
     <% end %>
   </div>
 
 </div>
+
