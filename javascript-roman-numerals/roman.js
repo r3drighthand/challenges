@@ -19,7 +19,71 @@ var printConvertedValue = function(event) {
 // numeralConverter takes a string that looks like a number as an input, e.g. '111'.
 // numeralConverter should output a string of characters corresponds to a Roman Numeral, e.g. 'XXVI'
 var numeralConverter = function(numString) {
-  // your code goes here!
+  var numInteger = Number(numString);
+  var output = "";
+  if (numInteger < 10) {
+    output = units(numInteger);
+  }
+  else if (numInteger < 100) {
+    output = tens(numInteger).concat(units(numInteger));
+  }
+  else if (numInteger < 1000) {
+    output = hundreds(numInteger).concat(tens(numInteger)).concat(units(numInteger));
+  }
+  else {
+    output = "M"
+  }
+  return output
 }
 
 // your helper functions go here!
+function units(numInteger) {
+  numInteger %= 10;
+  var output = "";
+  if (numInteger < 5) {
+    for( var i=0; i < numInteger; i++) {
+      output = output.concat("I");
+    }
+  }
+  else if (numInteger < 10) {
+    output = "V";
+    for ( var i=0; i < (numInteger - 5); i++) {
+      output = output.concat("I");
+    }
+  }
+  return output
+}
+
+function tens(numInteger) {
+  output = "";
+  var stop = ((numInteger - (numInteger % 10)) / 10) % 10 ;
+  if (stop < 5) {
+    for ( var i=0; i < stop; i++) {
+      output = output.concat("X");
+    }
+  }
+  else {
+    output = 'L';
+    for ( var i=0; i < (stop - 5); i++) {
+      output = output.concat("X");
+    }
+  }
+  return output;
+}
+
+function hundreds(numInteger) {
+  output = "";
+  var stop = (numInteger - (numInteger % 100)) / 100 ;
+  if (stop < 5) {
+    for ( var i=0; i < stop; i++) {
+      output = output.concat("C");
+    }
+  }
+  else {
+    output = 'D';
+    for ( var i=0; i < (stop - 5); i++) {
+      output = output.concat("C");
+    }
+  }
+  return output;
+}
