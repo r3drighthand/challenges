@@ -16,74 +16,38 @@ var printConvertedValue = function(event) {
 }
 
 
-// numeralConverter takes a string that looks like a number as an input, e.g. '111'.
-// numeralConverter should output a string of characters corresponds to a Roman Numeral, e.g. 'XXVI'
 var numeralConverter = function(numString) {
-  var numInteger = Number(numString);
-  var output = "";
-  if (numInteger < 10) {
-    output = units(numInteger);
+  var convert_roman_numerals = {
+    1: 'I',
+    4: 'IV',
+    5: 'V',
+    9: 'IX',
+    10: 'X',
+    40: 'XL',
+    50: 'L',
+    90: 'XC',
+    100: 'C',
+    400: 'CD',
+    500: 'D',
+    900: 'CM',
+    1000: 'M'
   }
-  else if (numInteger < 100) {
-    output = tens(numInteger).concat(units(numInteger));
-  }
-  else if (numInteger < 1000) {
-    output = hundreds(numInteger).concat(tens(numInteger)).concat(units(numInteger));
-  }
-  else {
-    output = "M"
-  }
-  return output
-}
 
-// your helper functions go here!
-function units(numInteger) {
-  numInteger %= 10;
-  var output = "";
-  if (numInteger < 5) {
-    for( var i=0; i < numInteger; i++) {
-      output = output.concat("I");
-    }
-  }
-  else if (numInteger < 10) {
-    output = "V";
-    for ( var i=0; i < (numInteger - 5); i++) {
-      output = output.concat("I");
-    }
-  }
-  return output
-}
+  var int = parseInt(numString);
+  var string = ''
 
-function tens(numInteger) {
-  output = "";
-  var stop = ((numInteger - (numInteger % 10)) / 10) % 10 ;
-  if (stop < 5) {
-    for ( var i=0; i < stop; i++) {
-      output = output.concat("X");
-    }
-  }
-  else {
-    output = 'L';
-    for ( var i=0; i < (stop - 5); i++) {
-      output = output.concat("X");
-    }
-  }
-  return output;
-}
+ while (int > 0) {
+    var number = Object.keys(convert_roman_numerals).filter(function(key){
+      return key <= int;
+    });
 
-function hundreds(numInteger) {
-  output = "";
-  var stop = (numInteger - (numInteger % 100)) / 100 ;
-  if (stop < 5) {
-    for ( var i=0; i < stop; i++) {
-      output = output.concat("C");
-    }
+    var max = number[number.length - 1]
+
+    if (number.length === 1 ) { max = 1 }
+
+    string += (convert_roman_numerals[max])
+    int -= parseInt(max)
   }
-  else {
-    output = 'D';
-    for ( var i=0; i < (stop - 5); i++) {
-      output = output.concat("C");
-    }
-  }
-  return output;
+
+  return string;
 }
