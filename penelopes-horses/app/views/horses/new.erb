@@ -1,0 +1,16 @@
+<h1 class="big">Add a Horse</h1>
+
+<% if @horse.errors.any? %>
+  <section class="errors">
+    <ul>
+      <% @horse.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
+
+<%= erb :'horses/_new_horse', locals: {horse: @horse} %>
+
+
+

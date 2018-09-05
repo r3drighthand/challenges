@@ -1,0 +1,11 @@
+<h1 class="big">Meet the Herd</h1>
+
+<ul class="list">
+  <% @horses.each do |horse| %>
+    <%= erb :'horses/_horses', locals: {horse: horse} %>
+  <% end %>
+</ul>
+
+<form id='click' class="flex flex-column" method='GET' action="/horses/new">
+  <button type="submit" class="index button dark">Add a Horse</button>
+</form>
