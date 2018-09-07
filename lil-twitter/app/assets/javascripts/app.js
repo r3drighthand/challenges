@@ -105,6 +105,22 @@ var searchTweets = function(e) {
     })
   }
 
-  //
+  searchPromise.done(function(response){
+    var $tweetFormat = $(".tweet").first();
+    $('#tweets-container > ul').empty();
+    for (var i = 0; i < response.length; i++) {
+      var $newTweet = $tweetFormat.clone()
+      $newTweet.find(".avatar").attr("src", response[i].avatar_url)
+      $newTweet.find(".full-name").text(response[i].username)
+      $newTweet.find(".username").text(response[i].handle)
+      $newTweet.find(".timestamp").text(moment(response[i].created_at).fromNow())
+      $newTweet.find("#tweet-body").text(response[i].content)
+      $('#tweets-container > ul').append($newTweet)
+    }
+  })
+
+  searchPromise.fail(function(something){
+    $("#search").css("background-color", "red")
+  })
 }
 
