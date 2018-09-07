@@ -1,6 +1,5 @@
 class TweetsController < ApplicationController
   def recent
-    Tweet.ordered_json
     tweets = Tweet.ordered_json
     render json: tweets
   end
@@ -8,8 +7,10 @@ class TweetsController < ApplicationController
   def search
     hashtag = Hashtag.where(name: params[:keyword]).first
     if hashtag
+      p "hashtag"
       render json: hashtag.tweets.ordered_json
     else
+      p "error"
       render :nothing => true, status: 404
     end
   end
