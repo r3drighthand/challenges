@@ -1,4 +1,11 @@
 def sieve_of_eratosthenes(number)
+  possible_primes = (2..number).to_a
+  counter = 2
+  possible_primes.length.times do
+    possible_primes.delete_if {|num| num % counter == 0 && num > counter}
+    counter += 1
+  end
+  possible_primes
 end
 
 def prime_factors(number)
@@ -14,7 +21,6 @@ def find_first_prime_factor_of(number)
       return possible_factor
     end
   end
-
   number
 end
 
@@ -27,7 +33,7 @@ def square_root_of(number)
 end
 
 def is_prime?(number)
-  number > 1 && !has_factors_other_than_one_and_self?(number)
+  sieve_of_eratosthenes(number).include? number
 end
 
 def is_factor_of?(number, possible_factor)
