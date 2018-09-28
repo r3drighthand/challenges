@@ -30,9 +30,6 @@ On the homepage, add a "register" link.  Clicking the link takes the user to a p
 
 If registration is unsuccessful, the user should see the registration form and the associated error messages.  If registration is successful, the user should be considered logged in and redirected to the homepage where the "register" link is replaced with the user's username.  This is demonstrated in Figure 1.
 
-![registration mockup](readme-assets/registration.gif)
-*Figure 1*. Registering unsuccessfully and then successfully.
-
 
 ### Release 1: Login/Logout
 Now that users can register, allow them to login and logout.  On the homepage, add a "login" link next to the "register" link.  Clicking the link takes the user to a page with a form for logging in.  Users sign in with an e-mail address and password.
@@ -41,35 +38,21 @@ If login is unsuccessful, the user should see the login form and an error messag
 
 Clicking the "logout" link logs the user out and redirects the user back to the homepage.  These behaviors are demonstrated in Figure 2.
 
-![login/logout animation](readme-assets/login-logout.gif)
-*Figure 2*. Logging in unsuccessfully, logging in successfully, and logging out.
-
 
 ### Release 2:  Adding Restaurants
 Add a feature that allows registered users to add restaurants to the site.  Logged-in users should see an "Add a Restaurant" link on the homepage.  Clicking the link takes the user to a form.  The form should collect data like the restaurant's name, the restaurant's location, and the type of cuisine served.
 
 When the form is submitted, if adding the restaurant is unsuccessful (e.g., failing a validation), the user should see the form and the associated error messages.  If listing the item is successful, the user should be redirected to a page showing the restaurant's details.  Each restaurant should be associated with the user who added the restaurant.  This is demonstrated in Figure 3.
 
-*Note:*  In Figure 3, the "Add a Restaurant" link is styled to look like a button.
-
-![add restaurant animation](readme-assets/add-restaurant.gif)
-*Figure 3*.  Adding a restaurant unsuccessfully and then successfully.
-
 
 ### Release 3:  Browsing Restaurants
 Add a feature that lists restaurants.  Restaurants should be listed on the homepage for any visitor to browse.  Each restaurant's name, city, and state should be displayed.  The name should be a link.  Clicking the link takes the user to a page showing the restaurant's details.  This is demonstrated in Figure 4.
-
-![browse restaurant animation](readme-assets/browse-restaurants.gif)
-*Figure 4*. Browsing restaurants and viewing a specific restaurant.
 
 
 ### Release 4:  Editing a Restaurant's Details
 Allow users to edit restaurant details.  In the list of restaurants on the homepage, if a user is logged in, the user should see an "edit" link for any restaurants the user added.  Clicking the link takes the user to a form for editing the restaurant.  The form should be populated with the restaurant's current details.  Submitting the form makes a request to update the restaurant.
 
 If the update is unsuccessful, the user should see the form and the associated error messages.  If updating the restaurant is successful, the user should be redirected to a page showing the restaurant's details.  The successful outcome is demonstrated in Figure 5.
-
-![editing a restaurant](readme-assets/edit-restaurant.gif)
-*Figure 5*. Successfully editing a restaurant.
 
 
 ### Release 5: Deleting a Restaurant
@@ -78,9 +61,6 @@ In the same way that users might need to edit a restaurant, they might also need
 In the list of restaurants on the homepage, add a "delete" button next to the "edit" link for any restaurants the user added.  Clicking the button should delete the restaurant and redirect the user back to the homepage.  This is demonstrated in Figure 6.
 
 *Note:* The "delete" button is part of a form used to submit a RESTful request to delete an item.  In Figure 6, it is styled to look like a link.
-
-![deleting a restaurant](readme-assets/delete-restaurant.gif)
-*Figure 6*.  Deleting a restaurant.
 
 
 ### Release 6:  Apply Responsible Behavior Per User and Route
@@ -98,9 +78,6 @@ Consider:
 Add a feature that allows logged-in users to review a restaurant.  Adding a review will occur on the page showing the restaurant's details.  On the page add a reviews section.  Include the average review rating and the body of all reviews.  If no user is logged in, inform the user to log in to leave a review.  If a user is logged in, display a form that accepts new reviews.
 
 When submitting the form, if the review is unsuccessfully created, the user should see the restaurant page with the form and the associated error messages.  If the review is successfully created, the user should be redirected to the restaurant's show page.  Instead of seeing a form for writing a new review, the user should see a thank you message.  This thank you message is only visible after creating the new review; later visits to the page should display a message that the user has already left a review.  Writing a review as a logged-in user is demonstrated in Figure 7.
-
-![reviewing a restaurant](readme-assets/review-restaurant.gif)
-*Figure 7*.  Successfully logging in and reviewing a restaurant.
 
 
 ## Conclusion
