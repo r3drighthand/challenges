@@ -1,0 +1,52 @@
+<div class="sm-container">
+  <h1><%= @restaurant.name %></h1>
+  <h3>Address: <%= @restaurant.address  %>, <%= @restaurant.city %>, <%= @restaurant.state %> <%= @restaurant.zipcode %></h3>
+  <h3>Cuisine: <%= @restaurant.cuisine  %></h3>
+  <h3>Added By: <%= @restaurant.page_creator.username  %></h3>
+</div>
+
+<div class="sm-container tight">
+  <h1>Leave a Review</h1>
+  <% if logged_in? %>
+    <% if !@restaurant.reviews.find_by(reviewer_id: current_user.id) %>
+    <% if @errors %>
+      <% @errors.each do |error| %>
+        <p><%= error %></p>
+      <% end %>
+    <% end %>
+    <form action="/restaurants/<%= @restaurant.id %>/reviews" method="POST" id="new-review">
+      <label for="rating" class="select-label">Rating:</label>
+      <select id="rating" name="review[rating]" type="text">
+        <option value="5">5</option>
+        <option value="4">4</option>
+        <option value="3">3</option>
+        <option value="2">2</option>
+        <option value="1">1</option>
+      </select>
+      <label for="review_text">Review:</label>
+      <textarea rows="4" cols="30" id="review_text" name="review[content]"></textarea>
+      <input type="submit" value="Add Review">
+    </form>
+    <% else %>
+      <h3>You cannot add more than one review for each restaurant</h3>
+    <% end %>
+  <% else %>
+    <h3>You must be logged in to write a review.</h3>
+    <h4><a href="/sessions/new">Go log in.</a></h4>
+  <% end %>
+</div>
+
+<div class="sm-container tight">
+  <h1>Reviews</h1>
+  <% if @restaurant.reviews.length > 0 %>
+    <h5>Average Rating: <%= @restaurant.average_rating %>/5</h5>
+    <% @restaurant.reviews.each do |review| %>
+      <div class="single-review">
+        <h3 ><%= review.content  %></h3>
+        <h5>- <%= review.reviewer.username  %></h5>
+      </div>
+    <% end %>
+  <% else %>
+    <h3>No reviews yet!</h3>
+  <% end %>
+</div>
