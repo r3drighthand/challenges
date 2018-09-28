@@ -15,9 +15,32 @@
   <script src="/js/jquery.js"></script>
   <script src="/js/application.js"></script>
 
-  <title></title>
+  <title>DBC Eat and Review</title>
 </head>
 <body>
-  <%= yield %>
+  <header class="head-contain">
+    <div class="top">
+      <h1 class="head-h1">DBC Eat and Review</h1>
+      <nav>
+        <ul class="nav">
+          <li><a href="/">home</a></li> |
+          <% if session[:user_id] %>
+            <form action="/sessions" method="POST" class="logout-form">
+              <input type="hidden" name="_method" value="DELETE">
+              <li><input type="submit" value="LOGOUT"></li> |
+            </form>
+            <% @user = User.find_by(id: session[:user_id]) %>
+            <li><a href="/users/<%= session[:user_id] %>"> <%= @user.email %></a></li>
+          <% else %>
+            <li><a href="/sessions/new">login</a></li> |
+            <li><a href="/users/new">register</a></li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div class="main-container">
+    <%= yield %>
+  </div>
 </body>
 </html>

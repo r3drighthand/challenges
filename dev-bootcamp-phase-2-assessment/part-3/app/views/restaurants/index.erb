@@ -1,0 +1,23 @@
+<div class="sm-container">
+  <h1>Restaurants on DBC Eat and Review:</h1>
+  <% @restaurants.each do |restaurant| %>
+    <div class="single-restaurant">
+    <h2><a href="/restaurants/<%= restaurant.id %>"><%= restaurant.name %></a></h2>
+    <h4><%= restaurant.city %>, <%= restaurant.state %></h4>
+    <% if restaurant.page_creator == current_user %>
+        <h5><a href="/restaurants/<%= restaurant.id  %>/edit">Edit</a></h5>
+      <form action="/restaurants/<%= restaurant.id %>" method="POST" id="inline-restaurant-delete">
+        <input type="hidden" name="_method" value="DELETE">
+        <h5><input type="submit" value="Delete" id="delete-inline-for-single-restaurant"></h5>
+      </form>
+    <% end %>
+    </div>
+  <% end %>
+</div>
+
+<% if logged_in? %>
+  <div class="sm-container tight">
+    <h1>Don't see a Restaurant you want to review?</h1>
+    <h2><a href="/restaurants/new">Add It!</a></h2>
+  </div>
+<% end %>
