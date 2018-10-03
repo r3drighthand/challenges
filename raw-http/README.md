@@ -1,135 +1,114 @@
-# TCP: Humble Beginnings
+# Hat-Tip
 
 ## Learning Competencies
 
- * Understand what a TCP server is at a basic level
- * Understand what a TCP client is at a basic level
- * Understand how TCP servers and clients talk to each other
+ * Understand what an HTTP client sends to a server
+ * Understand what an HTTP server sends to a client
+ * Understand how HTTP servers and clients interact
 
-## Introduction
+**Note:** The point of this challenge is to learn about HTTP. Keep the competencies in mind and allocate your time accordingly.
 
-The internet as you know it is one vast network of interconnected machines. Computers connect to each other over this network using a variety of tools and protocols, a few of which we'll learn about in this challenge.
+## What's HTTP?
 
-Before we begin, let's consider how computers connect. Computers need a way to find each other on a network, so they rely on **IP addresses**. An IP address is an identifier assigned to machine on a network that allows other machines to find it. For example, I might connect to another machine with the IP address "10.0.0.32" on my network.
+HTTP is a protocol. In this case the protocol is simply an agreement between programs that they'll send **text** to each other in a **specific format** via a **TCP connection**.
 
-A given machine might be running many different kinds of programs that my computer wants to connect to. For example, the machine at "10.0.0.32" might be running a mail server _and_ a web server _and_ an FTP server. So the IP address of a machine isn't enough! I need to also know which program on that machine to connect to.
+You already know what TCP connections are, and you know how to send text over them. So, understanding HTTP is just a matter of understanding  what text you need to send between an HTTP client and HTTP server.
 
-That's what **ports** are for. When a program starts, it can optionally bind to a port, allowing other machines to connect and talk to it.
+## Release 1, an HTTP client
 
-If you think of an IP address as the street address of a building, think of a port as an office suite number. We use the IP address to reach the machine, and the port to tell the machine which program we're interested in talking to.
+An HTTP client sends HTTP _requests_ to an HTTP server. In this exercise we're going to build our own HTTP client and fetch a webpage by connecting to a webserver on the internet and sending it a properly formatted request.
 
-At this point you might be wondering how it is you can connect to "google.com" without specifiying an IP address for one of Google's machines. While we won't be worrying about it today, there's an additional service on the internet called **DNS** that translates domain names like google.com into IP addresses for you.
+### The Request Format
+Let's talk about the "specific format" of an HTTP request. Here's an example of an HTTP request string:
 
-## TCP
+   ```
+   GET /locations/chicago HTTP/1.1
+   Host: devbootcamp.com
+   Accept: text/html
 
-Once two machines connect, how do they talk to each other? One way to do it is **TCP**. When your computer finds another computer via IP address and port it can attempt to establish a **TCP Connection**. If the other computer is running a program that has started a **TCP Server** the connection will succeed, and an open, bi-directional tunnel of information will be established. Both parties can send and receive data down this pipe.
+   ```
 
-Today, we'll be sending strings back and forth, nothing fancy!
+As you can see, an HTTP request is a chunk of text (a string) that is composed of:
 
-## Release 0
+ * The resource (URL) being requested
+ * Zero or more headers (Key: value)
+ * A blank line
 
-`server.rb` contains a functioning TCP server using Ruby's built in TCPServer class. Before you begin, open the file and read through it. Discuss what you're seeing with your pair, and _ask questions_ if you don't understand how it fits together. This is good practice interpreting new code with ideas you may not have seen before.
+In this example, we see:
 
-Once you're done, start `server.rb` running. As you've seen by now, it will start an infinite loop that waits for new connections.
+ * Line 1: A `GET` request to fetch `/locations/chicago`
+ * Line 2: A _header_ that names the host we're talking to.
+ * Line 3: Another header that says what kind of content we want (html)
+ * Line 4: an empty line signaling that our request is done
 
-```
-$ ruby server.rb
-Server waiting for a new connection...
-```
+Don't forget that empty line! It's what signals to the server that you're done sending your request and would like to receive a response.
 
-Now read through `client.rb` with your pair. This uses Ruby's built-in `TCPSocket` class, which allows Ruby to connect to a TCP server. Before you run it, discuss with your pair what you think will happen.
+The text you see in the example is the same text your browser sends to the `devbootcamp.com` server over TCP when you visit http://devbootcamp.com/locations/chicago. There's no magic here, the web is just a matter of formatting text-based requests and responses correctly so that everybody can communicate.
 
-Once you're done, open a _new_ terminal window, we need to keep the server running. In the new terminal window, run the client. Hopefully you will watch it connect to the server.
+There are many different kinds of HTTP request types but the simplest of all is the humble `GET` we see above. `GET` just says "give me this thing I'm looking for." A `GET` is what happens every time you type a URL into your browser.
 
-```
-$ ruby client.rb grace hopper
-Sending a message to the server: grace hopper
-Waiting for a message...
+### Write your Client
 
-Message from the server: We got your message! Hello grace hopper!
-```
+Write a program that sends a GET request over TCP to `www.example.com` on port 80 to fetch the `/index.html` page on the server.
 
-If you look at the terminal window with the server, there should be a message showing that a client connected, and that we closed the connection when we were done:
+Your client should print out all the lines that it gets back from the server.
 
-```
-$ ruby server.rb
-Server waiting for a new connection...
-A client has connected!
-Closed connection
-Server waiting for a new connection...
-```
+It's ok if your client ends up in an infinite loop when trying to fetch all the response data, the important part is that you can read the response in its entirety.
 
-Work with your pair to figure out how these pieces fit together, and what kinds of objects and methods were involved. Don't be scared to open up some docs and blog posts about TCPServer and TCPSocket, and ask questions!
+## Release 2, an HTTP server
 
-## Recap
+In the last release you wrote a basic HTTP client that accessed a real-life-website and displayed its contents (which is pretty amazing).
 
-Now that you've done some research, let's recap:
+Let's try this from the other side. In this release let's write a little HTTP _server_.
 
-In the code you've reviewed, both `server_connection.accept` in `server.rb` and `TCPSocket.new` in `client.rb` return new `TCPSocket` objects. `TCPSocket`s represent a communication link between two programs. This link can be present between two programs on the same computer _or_ different computers. `TCPSocket` objects represent our tunnel between machines.
+You won't be using your HTTP client in this release, we'll test our server by connecting to it with Google Chrome (our favorite HTTP client).
 
-`TCPSocket#gets` is a method that waits around for some data to be sent down the link. It will wait (pausing the program) until data arrives. Check out `server.rb` — see where the server is using `#gets` to wait for data from the client?
+### The Response Format
 
-`TCPSocket#puts` is a method that _sends_ data down the link to the other side. It will try to send data down the link, and will wait (pausing the program) until the other side signals that it's ready to receive data with `#gets`. Notice that `client.rb` uses `#puts` to send the contents of `ARGV` to the server process.
-
-Programs can use `TCPSocket#gets` and `TCPSocket#puts` to communicate. One side signals that it's ready to receive data and the other side sends data down the link. Programs can trade giving and receiving data back and forth to create bi-directional communication.
-
-## Release 1
-
-Now that we've got the basics down, let's write a cheering mascot server and client. This will work a lot like cheering mascot from Phase 1, but it's going to work over a network!
-
-Create files for `cheering_server.rb` and `cheering_client.rb`. You can use the existing `server.rb` and `client.rb` files as a reference if you like, but resist the temptation to copy and paste.
-
-### The server
-The **server** should wait to accept a cheer string from a connected client, and send back the following responses based on what message it receives.
-
-| Message from Client | Response       |
-| :-----------------: | :------------: |
-| RED HOT             | H-O-T!         |
-| DO IT AGAIN         | Go, Fight, Win |
-| 2 BITS              | Holler!        |
-| STOMP YOUR FEET     | STOMP!         |
-
-You can make up your own responses if you would like, but make sure you support at least this default set.
-
-**Note 1:** Any time you change your server, you'll need to CTRL-C the server program and re-run it.
-
-**Note 2:** `TCPSocket#puts` sends a message and automatically tacks on an extra `\n`. That means you may need to `chomp` the `\n` off when you receive a message via `TCPSocket#gets` — this is actually similar to the `#gets` you used in Phase 1.
-
-### The client
-
-The **client** should send a cheer name down the link to the server and print out the response it gets back. For example:
+The _simplest_ response your server can send is a classic `200 OK`, which says "I have the thing you're looking for, here you go." Here's an example of an HTTP response string:
 
 ```
-$ ruby client.rb RED HOT
-Response from server: "H-O-T!"
+HTTP/1.1 200 OK
+Content-Length: 130
 
-$ ruby client.rb 2 BITS
-Response from server: "Holler!"
+<html>
+<head>
+  <title>An Example Page</title>
+</head>
+<body>
+  Hello World, this is a very simple HTML document.
+</body>
+</html>
 ```
 
-Believe it or not, you've actually created your _own_ protocol of sorts. A protocol is just an agreement about what format data is sent and received in between client and server. Here, our protocol is defined in the table of messages and responses, "if you send me RED HOT, I send you "H-O-T!".
+As you can see, the format of a `200` response needs (at least) three pieces.
 
-## Release 2
+ * The response line indicating that this is, in fact, a `200` response
+ * A header specifying the length of the content that will be sent back in characters (bytes)
+ * An empty line
+ * A series of lines representing the content.
 
-The most exciting part of network programming is that it allows two programs to communicate across different machines. Since the other pairs in your cohort are also building servers fitting this protocol, your client should be able to talk to _their_ servers just as easily as it talks to your own.
+In our example, we see:
 
-Find another group and connect to their server instead of your own. This means you're going to need to connect to their IP address, not `127.0.0.1`.
+ * Line 1: A 200 OK response (content was found)
+ * Line 2: A header specifiying the number of characters in our response below the empty line
+ * Line 3: An empty line to signal the end of our headers and the beginning of our content
+ * Lines 4 to end: The body of our response
 
-To find the IP address of a machine run the following in the terminal:
+If your TCP server is sending the example above correctly, you should be able to visit your server in Chrome and see the web page!
 
-```bash
-ifconfig en0 inet
-```
+Watch out for the Content-Length, it's easy to mess up. All characters, including indentation, will count towards the total Content-Length. Whatever the number is, it must match _exactly_ the number of characters you're sending after the empty line.
 
-You'll get back something like
+### Requirements
 
-```
-en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
- inet 192.168.0.101 netmask 0xffffff00 broadcast 192.168.0.255
-```
+Your server should run on port 2000. You can tell Chrome to visit it by going to the url  `http://127.0.0.1:2000/` once you have it up and running.
 
-In the example above, `192.168.0.101` is this machine's IP address.
+## Release 3, Expand the Server
 
-Modify `client.rb` to connect to another pair's machine and talk to their server. They should do the same with you. Does it work? Can you send a cheer name and get a response back from their server program?
+Change your server to serve two simple pages.
 
-Congratulations, you're half way to inventing the web!
+ * `/hi` should send back a response with a greeting
+ * `/quote` should send back a quote of your choosing
+
+Visiting `http://127.0.0.1:2000/hi` should give you one of these and `http://127.0.0.1:2000/quote` the other.
+
