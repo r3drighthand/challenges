@@ -1,0 +1,23 @@
+.container {
+  margin: 0 auto;
+  width: 720px;
+}
+
+small.page_no {
+  float: right;
+  color: #ddd;
+}
+
+.pagination {
+  background-color: #eee;
+  margin: 10px 0px;
+}
+
+.pagination a {
+  color: #222;
+  text-decoration: none;
+}
+
+.pagination a.disabled {
+  color: #ccc;
+}
