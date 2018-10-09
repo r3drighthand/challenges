@@ -1,23 +1,12 @@
 class Company
+  attr_accessor :company_name, :employees
 
   def initialize(name, employees = [])
     @company_name = name
     @employees    = employees
   end
 
-  def company_name
-    @company_name
-  end
-
-  def company_name=(new_name)
-    @company_name = new_name
-  end
-
   def add_employee(employee)
-    @employees << employee
-  end
-
-  def employees
-    @employees
+    employees << employee
   end
 end
