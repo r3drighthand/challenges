@@ -1,0 +1,17 @@
+<div>
+  <h1>New Entry</h1>
+
+  <% if @errors %>
+    <p><% @errors.each do |error| %>
+    <%= error %><br>
+    <% end %></p>
+  <% end %>
+
+  <form id="new_entry" action="/save-entry" method="post">
+    <label for="entry_title">Title:</label>
+    <input type="text" name="entry_title">
+    <label for="entry_body">Body:</label>
+    <textarea name="entry_body" cols="50" rows="10"></textarea>
+    <input type="submit" value="SUBMIT IT!!">
+  </form>
+</div>

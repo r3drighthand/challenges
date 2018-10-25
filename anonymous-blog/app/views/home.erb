@@ -1,0 +1,14 @@
+<div>
+  <h1>Welcome!</h1>
+  <nav>
+    <a href="/new-entry">New Entry</a>
+  </nav>
+<br><br>
+<h2>Entries</h2>
+  <main class="all-entries">
+      <% @all_entries.each do |entry| %>
+        <p><a href="/entry?id=<%= entry.id %>"><%= entry.title %></a><br>
+        <%= entry.body %></p>
+      <% end %>
+  </main>
+</div>
