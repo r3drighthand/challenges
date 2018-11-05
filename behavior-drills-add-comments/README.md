@@ -5,12 +5,12 @@
 We have a webpage that displays an article and a few user comments. We want users to be able to add new comments, and we're going to write the JavaScript to implement this feature. The finished product should behave like the page seen in Figure 1.
 
 ![adding comments](readme-assets/add-comments.gif)
-*Figure 1*.  Demonstration of adding comments behaviors.
+*Figure 1*. Demonstration of adding comments behaviors.
 
 *Note:* Normally, when users submit comments, we want to persist the data in a database _as well as_ update the UI with JavaScript for an optimal experience. We're going to exclude the requirement that the data be persisted so that we can focus on handling events and updating the DOM.
 
 ### Helpful jQuery Resources
-This is one of the more complex behavior drills.  There are a few different moving parts we need to coordinate.  We'll rely on the [jQuery][] JavaScript library to help us.
+This is one of the more complex behavior drills. There are a few different moving parts we need to coordinate. We'll rely on the [jQuery][] JavaScript library to help us.
 
 These links should be useful in helping to complete this challenge.
 
@@ -23,8 +23,7 @@ These links should be useful in helping to complete this challenge.
 ## Releases
 
 ### Release 0: Implement Adding Comments
-
-We'll do the vast majority of our work in the JavaScript file `application.js`.  HTML is provided in the file `index.html`; don't modify anything inside the `<body>` tag. CSS is also provided, and should not be modified.  Implement the behavior in Figure 1:
+We'll do the vast majority of our work in the JavaScript file `application.js`. HTML is provided in the file `index.html`; don't modify anything inside the `<body>` tag. CSS is also provided, and should not be modified. Implement the behavior in Figure 1:
 
 - When the user clicks the *New Comment* button,
   - the button is hidden.
@@ -40,14 +39,12 @@ Be sure to follow the specifications and remember to take it slow.  Test the cod
 _Note:_ Don't worry about deleting comments until Release 2.
 
 ### Release 1: Handle Empty Form Fields
-
 What happens if a user submits the form without adding any data in the form fields?  We just add empty comments to the comment list.  Let's update the comment-adding behavior to control for missing content:
 
-- Prevent empty comments from appearing in the comment list.  When a user submits the form, only append the new comment if the user has entered some text into the form's text area.
-- Allow anonymous comments.  If a user submits the form without providing a name, attribute the comment to *Anonymous*.
+- Prevent empty comments from appearing in the comment list. When a user submits the form, only append the new comment if the user has entered some text into the form's text area.
+- Allow anonymous comments. If a user submits the form without providing a name, attribute the comment to *Anonymous*.
 
 ### Release 2: Deleting Comments
-
 The "Delete Comment" button is currently not functional. It'll be up to you to make it work.
 
 When a "Delete Comment" button is clicked, that comment should be removed from the DOM (thus removing it from the page).
@@ -57,8 +54,7 @@ The "Delete Comment" button needs to work both for the existing comments, as wel
 You may want to revist the jQuery page about [Handling Events][], including the section on binding elements that will be rendered in the future.
 
 ### Release 3: Sanitizing input
-
-Yay! The comment section works and is ready for real users. After the release goes out, we received a report saying that if a comment is enclosed in &lt;angle brackets&gt;, then the comment seems to disappear. Can you type &lt;awesome /&gt; into the comment field and hit submit?
+Yay! The comment section works and is ready for real users. After the release goes out, we received a report saying that if a comment is enclosed in angle brackets, then the comment seems to disappear. Can you type 'awesome' into the comment field and hit submit?
 
 Once we try this out, we can figure out what is actually going on. A good place to start is with the developer tools. Let's find the comment by pressing ⌘-f, and then searching for `awesome`
 
@@ -73,7 +69,7 @@ This is not only annoying, but it also a possible security vulnerability. What h
 
 `<script type="text/javascript">alert("A malicious user can execute JavaScript through this form")</script>`
 
-This is an example of an [injection attack](https://www.owasp.org/index.php/Injection_Theory). It's very similar to the SQL injection attack you learned about in phase 1. If you remember, our SQL code looked something like `SELECT * from Users where id = #{user_id}`. By using string interpolation, the database didn't know the difference between the sql command and the data from the user.
+This is an example of an [injection attack](https://www.owasp.org/index.php/Injection_Theory). It's very similar to the SQL injection attack you learned about in Phase 1. If you remember, our SQL code looked something like `SELECT * from Users where id = #{user_id}`. By using string interpolation, the database didn't know the difference between the sql command and the data from the user.
 
 Similarly, for JavaScript, when we have code that looks like this:
 
@@ -89,7 +85,7 @@ This type of injection attack is something called a [Cross-site-scripting (XSS) 
 To pass this release, modify the website to prevent HTML injection attacks.
 
 ## Conclusion
-Handling events and manipulating the DOM are crucial JavaScript skills.  Are we confident in our understanding of how to listen for events?  What about how to handle events?  How to pull data from the DOM?  How to update the DOM?  Be sure to get clarity around these issues. Do not be afraid to ask for help from peers or teachers. This is a critical juncture.
+Handling events and manipulating the DOM are crucial JavaScript skills. Are we confident in our understanding of how to listen for events?  What about how to handle events?  How to pull data from the DOM? How to update the DOM? Be sure to get clarity around these issues. Do not be afraid to ask for help from peers or teachers. This is a critical juncture.
 
 
 [.append()]: http://api.jquery.com/append/
