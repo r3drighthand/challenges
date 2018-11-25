@@ -1,0 +1,7 @@
+REFLECTIONS
+Rake/ActiveRecord
+******************
+
+Using a Rakefile can make it way easier to work with tables of data in Ruby programs.
+
+Rather than bouncing between SQLite and IRB in the terminal, we can use Rake commands to perform repetitive tasks like creating tables, looking at certain data, and even creating a test table to use instead of writing test situations within spec files.
