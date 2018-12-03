@@ -79,7 +79,7 @@ new_dog.save
 
 We can even ask the object itself if it's been saved to the database (see Figure 7). After we instantiate a new instance of dog, if we want to store its data in the database, we have to call `#save` on the object (see Figure 8).
 
-Calling `#save` on our object will tell Active Record that we want to write to the database. In this case, we want to write a new record.  What type of SQL query would Active Record need to generate and execute?
+Calling `#save` on our object will tell Active Record that we want to write to the database. In this case, we want to write a new record. What type of SQL query would Active Record need to generate and execute?
 
 Our dog object was not previously in the database, so calling `#save` generates and executes an insert query. In this case, something like `INSERT INTO "dogs" ("name", ...) VALUES (?, ...) [["name", "Bear"], ...]`
 
@@ -88,46 +88,46 @@ If the record was saved successfully, the `#save` method returns `true`; otherwi
 Now that we've saved our dog object, we should see some changes. Let's take a look at the value of the variable `new_dog`. What happened to its `id`, `created_at`, and `updated_at` attributes? What are their values?  Does our dog object report that it's now persisted? What is the count of dogs in the database?
 
 
-### Release 2:  Instantiate and Save at the Same Time
+### Release 2: Instantiate and Save at the Same Time
 ```ruby
 Dog.create(name: "Max")
 ```
-*Figure 9*.  Instantiating and saving a dog with the `.create` method.
+*Figure 9*. Instantiating and saving a dog with the `.create` method.
 
-In *Release 0* and *Release 1* we created an in-memory Ruby object and then later persisted the state of that object in the database.  There are times when this approach is appropriate, but there are other times when we might want to instantiate a new object and save it to the database at the same time.  `.create` gives us this option (see Figure 9).
+In *Release 0* and *Release 1* we created an in-memory Ruby object and then later persisted the state of that object in the database. There are times when this approach is appropriate, but there are other times when we might want to instantiate a new object and save it to the database at the same time. `.create` gives us this option (see Figure 9).
 
-`.create` will instantiate the new object, assign its attributes, and attempt to save it to the database.  However, whereas `#save` returns a true/false value depending on whether or not writing to the database was successful, `.create` will always return the newly instantiated object.  If the save was successful, the object will have its `id` attribute assigned.  If the save was unsuccessful, the object's `id` will be `nil`.
+`.create` will instantiate the new object, assign its attributes, and attempt to save it to the database. However, whereas `#save` returns a true/false value depending on whether or not writing to the database was successful, `.create` will always return the newly instantiated object. If the save was successful, the object will have its `id` attribute assigned. If the save was unsuccessful, the object's `id` will be `nil`.
 
 Having run the code in Figure 9, we should see that the count of dogs in the database has increased to five.
 
 
-### Release 3:  Creating Multiple Dogs at the Same Time
+### Release 3: Creating Multiple Dogs at the Same Time
 ```ruby
 Dog.create [{name: "Toot"}, {name: "Cosmo"}]
 ```
 *Figure 10*. Creating two dogs at the same time.
 
-So far, we've been creating single dog objects, but we might find ourselves in a position where we need to create multiple dogs.  We can create multiple records with one call to `.create` by passing an array of argument hashes (see Figure 10).
+So far, we've been creating single dog objects, but we might find ourselves in a position where we need to create multiple dogs. We can create multiple records with one call to `.create` by passing an array of argument hashes (see Figure 10).
 
 
-### Release 4:  Find a Dog or Make a New One
-Sometimes we are unsure whether a record already exists in the database.  For example, is there already a dog named Tenley with this license number?  There are a couple methods that will look for a record in the database and if it's there, return it, and if not, create a new object.  And similar to the relationship between `.new` and `.create`, we can just initialize the object or both initialize and save the object.
+### Release 4: Find a Dog or Make a New One
+Sometimes we are unsure whether a record already exists in the database. For example, is there already a dog named Tenley with this license number? There are a couple methods that will look for a record in the database and if it's there, return it, and if not, create a new object. And similar to the relationship between `.new` and `.create`, we can just initialize the object or both initialize and save the object.
 
 ```ruby
 Dog.find_by(license: "OH-9384764")
 ```
-*Figure 11*.  Finding the dog with license OH-9384764.
+*Figure 11*. Finding the dog with license OH-9384764.
 
-When we seeded our database we inserted three dogs.  One of the dogs was named Tenley and had the license OH-9384764.  We can use the `.find_by` method to pull this record from the database (see Figure 11).  We'll see that the returned instance of `Dog` has the id 1.
+When we seeded our database we inserted three dogs. One of the dogs was named Tenley and had the license OH-9384764. We can use the `.find_by` method to pull this record from the database (see Figure 11). We'll see that the returned instance of `Dog` has the id 1.
 
-Imagine we're working with an application where we need to register dogs—maybe it's a veterinary clinic.  We need to register a dog, but we're unsure whether or not the dog is already in our system.  If it is, we want to use the existing database record.  If not, we'll need to make a new record for the dog.
+Imagine we're working with an application where we need to register dogs—maybe it's a veterinary clinic. We need to register a dog, but we're unsure whether or not the dog is already in our system. If it is, we want to use the existing database record. If not, we'll need to make a new record for the dog.
 
 ```ruby
 Dog.find_or_initialize_by(license: "OH-9384764")
 ```
-*Figure 12*.  Find and return the dog with license OH-9384764 or instantiate an object with that license.
+*Figure 12*. Find and return the dog with license OH-9384764 or instantiate an object with that license.
 
-In Figure 12 we want to return the dog with license number OH-9384764, if such a record exists in the database.  We can see in the console output that Active Record executes a SQL query similar to `SELECT  "dogs".* FROM "dogs"  WHERE "dogs"."license" = 'OH-9384764' LIMIT 1`.
+In Figure 12 we want to return the dog with license number OH-9384764, if such a record exists in the database. We can see in the console output that Active Record executes a SQL query similar to `SELECT "dogs".* FROM "dogs" WHERE "dogs"."license" = 'OH-9384764' LIMIT 1`.
 
 In this case, such a record exists and so `.find_or_initialize_by` returns the object.  We can see that this dog's name is Tenley and that it has the id 1.
 
@@ -138,7 +138,7 @@ Dog.find_or_initialize_by(license: "MI-1234567")
 
 In Figure 13 we're looking for a dog with a different license—one not in the database.  Because a matching record is not found in the database, Active Record instantiates a new `Dog` object and assigns the attributes that we we're looking for.
 
-Like the `.new` method, `.find_or_initialize_by` does not attempt to save the record to the database.  We can see that the object's id is `nil`.  We would need to call `#save` on the returned instance if we wanted to save to the database.
+Like the `.new` method, `.find_or_initialize_by` does not attempt to save the record to the database. We can see that the object's id is `nil`. We would need to call `#save` on the returned instance if we wanted to save to the database.
 
 ```ruby
 Dog.find_or_create_by(name: "Taj", license: "OH-9084736")
@@ -147,14 +147,14 @@ Dog.find_or_create_by(name: "Taj", license: "OH-9084736")
 
 If we decide that if a matching record doesn't exist in the database, in addition to instantiating an object we also want to save the object, we can use `.find_or_create_by`.  This method is similar to `.find_or_initialize_by` except that if it doesn't find a record matching the given attributes, it both instantiates a new object with those attributes and also attempts to save it to the database.
 
-In the console output displayed when running the code in Figure 14, we can see that two SQL queries were run.  First, Active Record attempted to find a record with the supplied attributes.  Then, after not finding a match, Active Record attempted the save a new record with the supplied attributes with a query similar to `INSERT INTO "dogs" ("license", "name", ...) VALUES (?, ?, ...)  [["license", "OH-9084736"], ["name", "Taj"], ...]`.
+In the console output displayed when running the code in Figure 14, we can see that two SQL queries were run. First, Active Record attempted to find a record with the supplied attributes. Then, after not finding a match, Active Record attempted the save a new record with the supplied attributes with a query similar to `INSERT INTO "dogs" ("license", "name", ...) VALUES (?, ?, ...) [["license", "OH-9084736"], ["name", "Taj"], ...]`.
 
 The returned `Dog` object has an id assigned (i.e., it's not `nil`), so we know that the save was successful.
 
 
 ### Release 5: Insert new Records
-In the console, practice inserting new records into the database using the methods outlined above.  Create some dogs, people, and ratings.  Use `.new` and `#save`.  Use `.create`.  Make records one at a time.  Make multiple records at the same time.  Use `.find_or_initialize_by` and `.find_or_create_by`.  Take this time to build familiarity with these methods.  We'll be relying on them heavily throughout the rest of Dev Bootcamp.
+In the console, practice inserting new records into the database using the methods outlined above. Create some dogs, people, and ratings. Use `.new` and `#save`. Use `.create`. Make records one at a time. Make multiple records at the same time. Use `.find_or_initialize_by` and `.find_or_create_by`. Take this time to build familiarity with these methods. We'll be relying on them heavily throughout the rest of Dev Bootcamp.
 
 
 ## Conclusion
-This challenge exposed us to different approaches we can take when working with Active Record models and persisting them.  In particular, we need to be certain we understand the difference between `.new`/`#save` and `.create`.  When we build our applications, sometimes we'll want to take one approach and sometimes the other.  Before moving on, let's be sure that we understand the different methods outlined in this challenge.
+This challenge exposed us to different approaches we can take when working with Active Record models and persisting them. In particular, we need to be certain we understand the difference between `.new`/`#save` and `.create`. When we build our applications, sometimes we'll want to take one approach and sometimes the other. Before moving on, let's be sure that we understand the different methods outlined in this challenge.
