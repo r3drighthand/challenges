@@ -9,7 +9,8 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
 gem 'font-awesome-sass', '~> 4.5.0'
-gem "loofah", ">= 2.2.3"
+gem 'loofah', '>= 2.2.3'
+gem 'actionview', '~> 4.2.11.1'
 
 group :development do
   gem 'spring'
